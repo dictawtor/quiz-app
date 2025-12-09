@@ -93,15 +93,21 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
+}.correct{
+    background-color: rgb(16, 198, 137);
 }
 
+.incorrect{
+    background-color: crimson;
+}
 
+.correct:hover{
+    background-color: rgb(16, 198, 137);
+}
 
-
-
-
-
-
+.incorrect:hover{
+    background-color: crimson;
+}
 
 
 

@@ -1,41 +1,63 @@
-const URL = " https://opentdb.com/api.php?amount=10&category=21&difficulty=medium&type=multiple" 
+import { formatData } from "./helper.js";
 
-const loader = document.getElementById("loader")
-const container = document.querySelector(".container")
+const URL =
+  " https://opentdb.com/api.php?amount=10&category=21&difficulty=medium&type=multiple";
 
-
-let formattedData = null
-const formatData = (questionData) => {
-    console.log(questionData);
-  const result = questionData.map(item =>{
-    const questionObject = {question : item.question}
-    const answers = [...item.incorrect_answers]
-    const correctAnswerIndex = Math.floor(Math.random()* 4)
-    console.log(answers , correctAnswerIndex);
-    
-  })
-
-}
-  
-
-
-
-
-
-
-
-
-
+const loader = document.getElementById("loader");
+const container = document.querySelector(".container");
+const questionElement = document.getElementById("question-text");
+const answerElement = document.querySelectorAll(".answer-text ");
+const scoreText = document.getElementById("score")
+const CorrectBunus = 10
+let formattedData = null;
+let questionIndex = 0;
+let correctAnswer = null;
+let score = 0
+let isAccepted = true
 
 const fetchData = async () => {
-    const response = await fetch (URL)
-    const data = await response.json()
-    formatData(data.results)
-    console.log(data)
-    start()
-}
+  const response = await fetch(URL);
+  const data = await response.json();
+  formattedData = formatData(data.results);
+  console.log(formattedData);
+  start();
+};
 const start = () => {
-    loader.style.display = "none"
-    container.style.display = "inline-block"
+  showQuestion()
+  loader.style.display = "none";
+  container.style.display = "inline-block";
+};
+
+const showQuestion = () => {
+const { question, answers , correctAnswerIndex   } = formattedData[questionIndex];
+correctAnswer = answers[correctAnswerIndex];
+questionElement.innerText = question;
+answerElement.forEach((element, i) => {
+  element.innerText = answers[i];
+});
+
 }
-window.addEventListener("load" ,    fetchData )
+const checkAnswer = (e ,i) => {
+  if (!isAccepted) return
+  isAccepted = false
+
+  const selectedAnswer = answerElement[i].innerText
+  if(selectedAnswer === correctAnswer){
+    score += CorrectBunus
+    scoreText.innerText = score
+
+    answerElement[i].classList.add("correct")
+  } else{
+    answerElement[i].classList.add("incorrect")
+    answerElement[formattedData[questionIndex].correctAnswerIndex].classList.add("correct")
+  }
+
+
+}
+
+
+
+window.addEventListener("load", fetchData);
+answerElement.forEach((element , i) => {
+  element.addEventListener("click" , (e) => checkAnswer(e,i)  )
+})
