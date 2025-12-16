@@ -8,12 +8,18 @@ const container = document.querySelector(".container");
 const questionElement = document.getElementById("question-text");
 const answerElement = document.querySelectorAll(".answer-text ");
 const scoreText = document.getElementById("score")
+const score1 = document.getElementById("score1")
+const questionNumberElement = document.getElementById("question-number");
 const CorrectBunus = 10
 let formattedData = null;
 let questionIndex = 0;
 let correctAnswer = null;
 let score = 0
 let isAccepted = true
+
+
+
+
 
 const fetchData = async () => {
   const response = await fetch(URL);
@@ -29,6 +35,7 @@ const start = () => {
 };
 
 const showQuestion = () => {
+questionNumberElement.innerText = questionIndex + 1
 const { question, answers , correctAnswerIndex   } = formattedData[questionIndex];
 correctAnswer = answers[correctAnswerIndex];
 questionElement.innerText = question;
@@ -54,6 +61,50 @@ const checkAnswer = (e ,i) => {
 
 
 }
+
+const nextQuestion = () => {
+  questionIndex++
+  if(questionIndex < formattedData.length){
+    resetState()
+    showQuestion()
+  } else{
+
+   
+
+    redirecttoStartPage()
+     
+  }
+}
+
+
+
+const nextButton = document.getElementById("next-button")
+nextButton.addEventListener("click" , nextQuestion) 
+
+
+const resetState = () => {
+  isAccepted = true 
+  answerElement.forEach((element) => {
+    element.classList.remove("correct")
+    element.classList.remove("incorrect")
+  })
+}
+
+
+const redirecttoStartPage = () => {
+  
+    localStorage.setItem("score" , JSON.stringify(score))
+  window.location.href = "end.html"
+
+}
+
+const restartButton = document.getElementById("finish-button")
+restartButton.addEventListener("click" , redirecttoStartPage)
+
+
+
+  
+
 
 
 
