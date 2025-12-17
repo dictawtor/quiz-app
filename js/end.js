@@ -20,7 +20,7 @@ if (!input.value || !score) {
     highScores.splice(10)
     localStorage.setItem("highScores" , JSON.stringify(highScores) )
     localStorage.removeItem("scores")
-    window.location.assign("/")
+    window.location.assign("scores.html")
 }
 }
 
