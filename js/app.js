@@ -1,7 +1,7 @@
 import { formatData } from "./helper.js";
-
+const level = localStorage.getItem("level") || "easy";
 const URL =
-  " https://opentdb.com/api.php?amount=10&category=21&difficulty=medium&type=multiple";
+  `https://opentdb.com/api.php?amount=10&category=21&difficulty=${level}&type=multiple`;
 
 const loader = document.getElementById("loader");
 const container = document.querySelector(".container");
@@ -10,6 +10,7 @@ const answerElement = document.querySelectorAll(".answer-text ");
 const scoreText = document.getElementById("score")
 const score1 = document.getElementById("score1")
 const questionNumberElement = document.getElementById("question-number");
+const error = document.getElementById("error")
 const CorrectBunus = 10
 let formattedData = null;
 let questionIndex = 0;
@@ -22,11 +23,17 @@ let isAccepted = true
 
 
 const fetchData = async () => {
-  const response = await fetch(URL);
+  try{
+ const response = await fetch(URL);
   const data = await response.json();
   formattedData = formatData(data.results);
-  console.log(formattedData);
+  
   start();
+  }catch(err){
+    loader.style.display = "none";
+    error.style.display = "block"
+  }
+ 
 };
 const start = () => {
   showQuestion()

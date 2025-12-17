@@ -109,14 +109,38 @@
     background-color: crimson;
 }
 
+#error{
+    display: none;
+
+}
 
 
+    @media screen and (max-width: 600px){
+        .header{
+            width: 100%;
+            font-size: 1rem;
+        }
+        #question-box{
+            width: 100%;
+            height: auto;
+        }
+        #question-text{
+            font-size: 1rem;
+            height: auto;
+        }
+        .answer-text{
+            font-size: 1rem;
+        }
+        .container{
+            width: 100%;
+            justify-content: center;
 
 
-
-
-
-
+            margin-left: 40px;
+            margin: auto;
+            padding: 15px;
+        }
+    }
 
 
 

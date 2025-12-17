@@ -19,7 +19,8 @@ if (!input.value || !score) {
     highScores.sort( (a , b) => b.score - a.score )
     highScores.splice(10)
     localStorage.setItem("highScores" , JSON.stringify(highScores) )
-    alert("Score saved successfully!")
+    localStorage.removeItem("scores")
+    window.location.assign("/")
 }
 }
 
